@@ -1,29 +1,11 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class IsBalancedBinaryTree {
 	
-	
+	static boolean isbalanced=true;
 	public static class Node {
 		
 		int data;
@@ -96,7 +78,57 @@ public class BinaryTreeImplementation {
 			}
 		}
 		
-		System.out.println(root.data);
+		isbalancedTree(root);
+		if(isbalanced)
+		{
+			System.out.println("Yes");
+		}
+		else
+		{
+			System.out.println("No");
+		}
 	}
+	private static int isbalancedTree(Node root) {
+		
+		if(root==null)
+		{
+			return 0;
+		}
+		
+		int lh=isbalancedTree(root.left);
+		int rh=isbalancedTree(root.right);
+		
+		int gap=Math.abs(lh-rh);
+		if(gap>1)
+		{
+			isbalanced=false;
+		}
+		
+		int th=Math.max(lh, rh)+1;
+		return th;
+		
+	}
+	private static int height(Node root) {
+		
+		
+		if(root==null)
+		{
+			return 0;
+		}
+		
+		int leftHeight=height(root.left);
+		int rightHeight=height(root.right);
+		if(leftHeight>rightHeight)
+		{
+			return leftHeight+1;
+		}
+		else
+		{
+			return rightHeight+1;
+		}
+		
+		
+	}
+
 
 }

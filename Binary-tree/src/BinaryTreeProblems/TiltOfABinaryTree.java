@@ -1,29 +1,11 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class TiltOfABinaryTree {
 	
-	
+	static int tilt=0;
 	public static class Node {
 		
 		int data;
@@ -96,7 +78,29 @@ public class BinaryTreeImplementation {
 			}
 		}
 		
-		System.out.println(root.data);
+		int Tilt=tiltOfBinaryTree(root);
+		System.out.println(Tilt);
+	
 	}
+	private static int tiltOfBinaryTree(Node root) {
+		
+		if(root==null)
+		{
+			return 0;
+		}
+		
+		int left=tiltOfBinaryTree(root.left);
+		int right=tiltOfBinaryTree(root.right);
+		
+		int LocalTilt=Math.abs(left-right);
+		tilt+=LocalTilt;
+		
+		int sum=left+right+root.data;
+		return sum;
+		
+		
+		
+	}
+
 
 }

@@ -1,28 +1,12 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
+import java.util.ArrayList;
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class PrintSingleChildNodesInBinaryTree {
 	
+	static ArrayList<Integer> singleChildParent=new ArrayList<>();
 	
 	public static class Node {
 		
@@ -96,7 +80,24 @@ public class BinaryTreeImplementation {
 			}
 		}
 		
-		System.out.println(root.data);
+		getSingleChildNodes(root);
+		System.out.println(singleChildParent);
+	}
+	private static void getSingleChildNodes(Node root) {
+		
+		if(root==null)
+		{
+			return;
+		}
+		
+		if((root.left==null && root.right!=null) || (root.left!=null && root.right==null))
+		{
+			singleChildParent.add(root.data);
+		}
+		
+		getSingleChildNodes(root.left);
+		getSingleChildNodes(root.right);
+		
 	}
 
 }

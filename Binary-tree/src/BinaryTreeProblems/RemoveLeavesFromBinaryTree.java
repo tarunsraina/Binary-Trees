@@ -1,27 +1,9 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class RemoveLeavesFromBinaryTree {
 	
 	
 	public static class Node {
@@ -95,8 +77,47 @@ public class BinaryTreeImplementation {
 				st.pop();
 			}
 		}
-		
-		System.out.println(root.data);
+		System.out.println("Before removing leaves:");
+		Display(root);
+		removeLeaves(root);
+		System.out.println("After removing leaves:");
+		Display(root);
 	}
+	private static void Display(Node node) {
+		
+		if(node==null)
+		{
+			return;
+		}
+		
+		String str="";
+		str+=node.left==null?".":node.left.data+"";
+		str+="<-"+node.data+"->";
+		str+=node.right==null?".":node.right.data+"";
+		
+		System.out.println(str);
+		
+		Display(node.left);
+		Display(node.right);
+		
+	}
+	private static Node removeLeaves(Node root) {
+		
+		if(root==null)
+		{
+			return null;
+		}
+		
+		if(root.left==null && root.right==null)
+		{
+			return null;
+		}
+		
+		root.left=removeLeaves(root.left);
+		root.right=removeLeaves(root.right);
+		return root;
+		
+	}
+
 
 }

@@ -1,29 +1,15 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+
+public class PathToAllLeavesFromRootInBinaryTree {
 	
-	
+	static ArrayList<Node> leaves=new ArrayList<>();
+	static ArrayList<Integer> path=new ArrayList<>();
 	public static class Node {
 		
 		int data;
@@ -96,7 +82,71 @@ public class BinaryTreeImplementation {
 			}
 		}
 		
-		System.out.println(root.data);
+		pathToAllLEavesFromRoot(root);
+		
+	}
+	private static void pathToAllLEavesFromRoot(Node root) {
+		
+		getAllLeaves(root);
+		
+		for(int i=0;i<leaves.size();i++)
+		{
+			nodeToRootPath(root,leaves.get(i).data);
+			Collections.reverse(path);
+			System.out.println(path);
+			path=new ArrayList<>();
+		}
+	
+	}
+	private static void nodeToRootPath(Node root, int nodeData) {
+		
+		findNode(root,nodeData);
+		
+	}
+	private static boolean findNode(Node node, int nodeData) {
+		
+		if(node==null)
+		{
+			return false;
+		}
+		if(node.data==nodeData)
+		{
+			path.add(node.data);
+			return true;
+		}
+		
+		boolean foundInLeft=findNode(node.left,nodeData);
+		if(foundInLeft)
+		{
+			path.add(node.data);
+			return true;
+		}
+		
+		boolean foundInRight=findNode(node.right,nodeData);
+		if(foundInRight)
+		{
+			path.add(node.data);
+			return true;
+		}
+		
+		return false;
+		
+	}
+	private static void getAllLeaves(Node root) {
+		
+		if(root==null)
+		{
+			return;
+		}
+		
+		if(root.left==null && root.right==null)
+		{
+			leaves.add(root);
+		}
+		
+		getAllLeaves(root.left);
+		getAllLeaves(root.right);
+		
 	}
 
 }

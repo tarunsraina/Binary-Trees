@@ -1,27 +1,9 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class LeftCloneBinaryTree {
 	
 	
 	public static class Node {
@@ -95,8 +77,41 @@ public class BinaryTreeImplementation {
 				st.pop();
 			}
 		}
+		leftClone(root);
+		Display(root);
+	}
+	private static Node leftClone(Node root) {
+	
+		if(root==null)
+		{
+			return null;
+		}
 		
-		System.out.println(root.data);
+		Node left=leftClone(root.left);
+		Node right=leftClone(root.right);
+		
+		Node newNode=new Node(root.data,left,null);
+		root.left=newNode;
+		root.right=right;
+		return root;
+	}
+	private static void Display(Node node) {
+		
+		if(node==null)
+		{
+			return;
+		}
+		
+		String str="";
+		str+=node.left==null?".":node.left.data+"";
+		str+="<-"+node.data+"->";
+		str+=node.right==null?".":node.right.data+"";
+		
+		System.out.println(str);
+		
+		Display(node.left);
+		Display(node.right);
+		
 	}
 
 }

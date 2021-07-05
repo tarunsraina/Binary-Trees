@@ -1,28 +1,19 @@
 package BinaryTreeProblems;
 
 
-/*
- *        
- *        Binary-tree:       
- *               
- *                        50
- *                      /    \
- *                     /      \
- *                    25      75
- *                  /   \    /  \
- *                 12   37  62  87
- *                     /     \
- *                    30     70
- *                   
- *     
- *         tree[]={50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null}
- * 
- */
-
 import java.util.Stack;
 
-public class BinaryTreeImplementation {
+public class IsBinarySearchTree {
 	
+	public static class BSTPair{
+		
+		boolean isBST;
+		int min;
+		int max;
+	}
+	
+	static int max=Integer.MIN_VALUE;
+	static int min=Integer.MAX_VALUE;
 	
 	public static class Node {
 		
@@ -96,7 +87,41 @@ public class BinaryTreeImplementation {
 			}
 		}
 		
-		System.out.println(root.data);
+		BSTPair ans=isBinarySearchTree(root);
+		
+		if(ans.isBST)
+		{
+			System.out.println("BST");
+		}
+		else
+		{
+			System.out.println("NOT BST");
+		}
+	
+
 	}
+	private static BSTPair isBinarySearchTree(Node root) 
+	{
+		if(root==null)
+		{
+			BSTPair bp=new BSTPair();
+			bp.min=Integer.MAX_VALUE;
+			bp.max=Integer.MIN_VALUE;
+			bp.isBST=true;
+			return bp;
+		}
+		
+		BSTPair lp=isBinarySearchTree(root.left);
+		BSTPair rp=isBinarySearchTree(root.right);
+		
+		BSTPair myPair=new BSTPair();
+		myPair.isBST=lp.isBST && rp.isBST && (root.data>lp.max && root.data<rp.min);
+		myPair.min=Math.min(root.data,Math.min(lp.min,rp.min));
+		myPair.max=Math.max(root.data,Math.max(lp.max,rp.max));
+		
+		return myPair;
+		
+	}
+
 
 }
