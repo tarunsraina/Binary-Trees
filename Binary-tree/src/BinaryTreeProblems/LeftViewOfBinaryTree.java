@@ -1,11 +1,13 @@
 package BinaryTreeProblems;
 
 
+import java.util.ArrayList;
 import java.util.Stack;
 
-public class IsBalancedBinaryTree {
+public class LeftViewOfBinaryTree {
 	
-	static boolean isbalanced=true;
+	static ArrayList<Integer> left=new ArrayList<>();
+
 	public static class Node {
 		
 		int data;
@@ -31,7 +33,7 @@ public class IsBalancedBinaryTree {
 	}
 	public static void main(String[] args) {
 		
-		Integer tree[]= {50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null};
+		Integer tree[]= {1,2,4,null,null,5,null,null,3,null,6,null,null};
 				
 		Node root=new Node(tree[0],null,null);
 		Pair rootpair=new Pair(root,1);
@@ -77,37 +79,26 @@ public class IsBalancedBinaryTree {
 				st.pop();
 			}
 		}
-		
-		isbalancedTree(root);
-		if(isbalanced)
-		{
-			System.out.println("Yes");
-		}
-		else
-		{
-			System.out.println("No");
-		}
+		left.add(root.data);
+		leftView(root);
+		System.out.println(left);
 	}
-	private static int isbalancedTree(Node root) {
-		
+	private static void leftView(Node root) {
+	
 		if(root==null)
 		{
-			return 0;
+			return;
 		}
-		
-		int lh=isbalancedTree(root.left);
-		int rh=isbalancedTree(root.right);
-		
-		int gap=Math.abs(lh-rh);
-		if(gap>1)
+		if(root.left!=null)
 		{
-			isbalanced=false;
+		    left.add(root.left.data);
 		}
-		
-		int th=Math.max(lh, rh)+1;
-		return th;
+		else if(root.left==null && root.right!=null)
+		{
+			left.add(root.right.data);
+		}
+		leftView(root.left);
 		
 	}
 	
-
 }

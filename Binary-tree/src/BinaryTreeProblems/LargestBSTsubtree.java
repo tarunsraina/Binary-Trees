@@ -3,9 +3,20 @@ package BinaryTreeProblems;
 
 import java.util.Stack;
 
-public class IsBalancedBinaryTree {
+public class LargestBSTsubtree {
 	
-	static boolean isbalanced=true;
+	public static class BSTPair{
+		
+		boolean isBST;
+		int min;
+		int max;
+		Node root;
+		int size;
+	}
+
+	static int max=Integer.MIN_VALUE;
+	static int min=Integer.MAX_VALUE;
+	
 	public static class Node {
 		
 		int data;
@@ -78,36 +89,51 @@ public class IsBalancedBinaryTree {
 			}
 		}
 		
-		isbalancedTree(root);
-		if(isbalanced)
+		BSTPair ans=largestBSTsubtree(root);
+		
+		System.out.println("Largest BST subtree node is :"+ans.root.data);
+		System.out.println("Size of this subtree is :"+ans.size);
+	
+
+	}
+	private static BSTPair largestBSTsubtree(Node root)
+	{
+		if(root==null)
 		{
-			System.out.println("Yes");
+			BSTPair bp=new BSTPair();
+			bp.min=Integer.MAX_VALUE;
+			bp.max=Integer.MIN_VALUE;
+			bp.isBST=true;
+			return bp;
+		}
+		
+		BSTPair lp=largestBSTsubtree(root.left);
+		BSTPair rp=largestBSTsubtree(root.right);
+		
+		BSTPair myPair=new BSTPair();
+		myPair.isBST=lp.isBST && rp.isBST && (root.data>lp.max && root.data<rp.min);
+		myPair.min=Math.min(root.data,Math.min(lp.min,rp.min));
+		myPair.max=Math.max(root.data,Math.max(lp.max,rp.max));
+		
+		if(myPair.isBST)
+		{
+			myPair.root=root;
+			myPair.size=lp.size+rp.size+1;
+		}
+		else if(lp.size > rp.size)
+		{
+			myPair.root=lp.root;
+			myPair.size=lp.size;
 		}
 		else
 		{
-			System.out.println("No");
-		}
-	}
-	private static int isbalancedTree(Node root) {
-		
-		if(root==null)
-		{
-			return 0;
+			myPair.root=rp.root;
+			myPair.size=rp.size;
 		}
 		
-		int lh=isbalancedTree(root.left);
-		int rh=isbalancedTree(root.right);
-		
-		int gap=Math.abs(lh-rh);
-		if(gap>1)
-		{
-			isbalanced=false;
-		}
-		
-		int th=Math.max(lh, rh)+1;
-		return th;
+		return myPair;
 		
 	}
-	
+
 
 }
